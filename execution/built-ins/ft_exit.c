@@ -6,30 +6,53 @@
 /*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 19:54:50 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/12/17 15:29:06 by soopark          ###   ########.fr       */
+/*   Updated: 2022/12/17 15:46:08 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+static bool	overflow(uint64_t parse, int8_t sign, char c)
+{
+	static const uint64_t	pos_max = 0x7fffffffffffffff;
+	static const uint64_t	neg_max = 0x8000000000000000;
+	uint64_t				cutoff;
+	int						max_val;
+
+	if (sign == 1)
+		cutoff = pos_max;
+	else
+		cutoff = neg_max;
+	max_val = (int)(cutoff % 10u) + '0';
+	cutoff /= 10;
+	return (parse > cutoff || (parse == cutoff && c > max_val));
+}
+
 static int	exit_with_arg(char **content)
 {
-	int	i;
+	int			i;
+	int			sign;
+	uint64_t	parse;
 
 	i = 0;
+	parse = 0;
+	sign = 1;
+	if (content[1][i] == '-')
+		sign = -1;
+	if (content[1][i] == '-' || content[1][i] == '+')
+		i++;
 	while (i < (int)ft_strlen(content[1]))
 	{
-		if (!ft_isalnum(content[1][i]) || ft_isalpha(content[1][i]))
+		if (!ft_isdigit(content[1][i]) ||
+			(ft_isdigit(content[1][i]) && overflow(parse, sign, content[1][i])))
 		{
-			if ((content[1][i] != '+' && content[1][i] != '-'))
-			{
-				write(2, "minishell: exit: ", 17);
-				write(2, content[1], ft_strlen(content[1]));
-				write(2, ": numeric argument required\n", 28);
-				return (255);
-			}
+			write(2, "minishell: exit: ", 17);
+			write(2, content[1], ft_strlen(content[1]));
+			write(2, ": numeric argument required\n", 28);
+			return (255);
 		}
-		i++;
+		parse *= 10;
+		parse += content[1][i++] - '0';
 	}
 	return (ft_atoi(content[1]));
 }
