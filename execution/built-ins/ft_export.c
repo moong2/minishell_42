@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 08:13:07 by waelhamd          #+#    #+#             */
-/*   Updated: 2022/09/10 23:49:28 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/17 14:52:40 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ void	ft_export(char **cmd, t_env **env)
 		if (val == 0)
 		{
 			g_exit_status = 1;
-			printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
+			write(2, "minishell: export: '", 20);
+			write(2, cmd[i], ft_strlen(cmd[i]));
+			write(2, "': not a valid identifier\n", 26);
 			return ;
 		}
 		export_element(cmd[i], env, val);

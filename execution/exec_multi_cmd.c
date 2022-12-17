@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:29:38 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/09/10 23:31:44 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/17 14:32:47 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ void	exec_all(t_cmd *cmd, t_env **env)
 	save_fd = dup(0);
 	if (cmd && !cmd->next && exec_builtins(cmd->content, cmd->red, *env))
 	{
-		g_exit_status = 0;
+		if (g_exit_status != 1)
+			g_exit_status = 0;
 		return ;
 	}
 	exec_multi_cmd(cmd, env);
