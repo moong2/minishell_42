@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 08:08:59 by waelhamd          #+#    #+#             */
-/*   Updated: 2022/09/10 23:38:46 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/17 15:11:35 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	ft_cd(char **cmd, t_env *env)
 {
 	int		i;
 	char	*path;
+	char	*error;
 
 	i = -1;
 	if (!cmd[1] || !ft_strncmp(cmd[1], "~", 1))
@@ -112,7 +113,9 @@ void	ft_cd(char **cmd, t_env *env)
 	if (i < 0)
 	{
 		g_exit_status = 1;
-		perror("cd");
+		error = ft_strjoin("minishell: cd: ", cmd[1]);
+		perror(error);
+		free(error);
 	}
 	update_pwd_env(&env);
 }
