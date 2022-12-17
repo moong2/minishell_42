@@ -6,7 +6,7 @@
 /*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 19:54:50 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/12/17 13:42:35 by soopark          ###   ########.fr       */
+/*   Updated: 2022/12/17 15:29:06 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ static int	exit_with_arg(char **content)
 	i = 0;
 	while (i < (int)ft_strlen(content[1]))
 	{
-		if (ft_isalpha(content[1][i]))
+		if (!ft_isalnum(content[1][i]) || ft_isalpha(content[1][i]))
 		{
-			printf("Error:\n exit: %s: numeric argument required\n",
-				content[1]);
-			return (255);
+			if ((content[1][i] != '+' && content[1][i] != '-'))
+			{
+				write(2, "minishell: exit: ", 17);
+				write(2, content[1], ft_strlen(content[1]));
+				write(2, ": numeric argument required\n", 28);
+				return (255);
+			}
 		}
 		i++;
 	}
@@ -35,8 +39,9 @@ int	ft_exit(char **content, t_env *env)
 	printf("exit\n");
 	if (ft_dubstrlen(content) > 2)
 	{
-		ft_error("Error:\n exit: too many arguments\n");
-		return (1);
+		write(2, "minishell: exit: too many arguments\n", 36);
+		g_exit_status = 1;
+		return (255);
 	}
 	ft_free_env(env);
 	if (ft_dubstrlen(content) == 2)
