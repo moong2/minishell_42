@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:42:55 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/09/10 23:52:47 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/17 13:30:52 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	main(int ac, char **av, char **nv)
 
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_IGN);
+	(void) ac;
+	(void) av;
 	ac = 0;
 	av = NULL;
 	env = ft_env(nv);

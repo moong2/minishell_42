@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 19:54:50 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/09/10 23:41:03 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/17 13:42:35 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ static int	exit_with_arg(char **content)
 
 int	ft_exit(char **content, t_env *env)
 {
-	int	res;
-
-	res = 0;
 	printf("exit\n");
 	if (ft_dubstrlen(content) > 2)
 	{
