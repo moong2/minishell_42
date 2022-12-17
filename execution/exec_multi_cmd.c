@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:29:38 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/12/17 15:47:58 by soopark          ###   ########.fr       */
+/*   Updated: 2022/12/17 20:34:46 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static void	execute(t_cmd *cmd, t_env **env, int fd[])
 	str = cmd_tab[0];
 	cmd_tab[0] = get_absolute_path(str, *env, NULL, NULL);
 	if (execve(cmd_tab[0], cmd_tab, enironment) < 0)
-		(printf("minishell: %s: command not found\n", str), exit(127));
+		(printf("minishell: %s:", str), write(2, " command not found\n", 19), \
+		exit(127));
 }
 
 void	exec_multi_cmd(t_cmd *cmd_list, t_env **env)
