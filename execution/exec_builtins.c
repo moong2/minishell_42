@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 08:17:37 by waelhamd          #+#    #+#             */
-/*   Updated: 2022/09/10 23:23:30 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/17 13:55:47 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_builtins(char **cmd, t_red *red, t_env *env)
 		if (!ft_strncmp(cmd[0], "cd", 3))
 			ft_cd(cmd, env);
 		else if (!ft_strncmp(cmd[0], "pwd", 4))
-			ft_pwd(cmd, env);
+			ft_pwd(env);
 		else if (!ft_strncmp(cmd[0], "echo", 5))
 			ft_echo(cmd);
 		else if (!ft_strncmp(cmd[0], "env", 4))

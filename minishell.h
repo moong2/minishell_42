@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 17:06:52 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/09/10 23:52:54 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/17 13:56:31 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_env	*ft_env(char **nv);
 //./execution/built-ins/ft_exit.c
 int		ft_exit(char **content, t_env *env);
 //./execution/built-ins/ft_pwd.c
-int		ft_pwd(char **content, t_env *envp);
+int		ft_pwd(t_env *envp);
 void	ft_export(char **cmd, t_env **env);
 void	ft_cd(char **cmd, t_env *env);
 void	ft_unset(char **cmd, t_env *env);
