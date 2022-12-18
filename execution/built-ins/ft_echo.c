@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 22:25:19 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/12/17 20:22:57 by jeykim           ###   ########.fr       */
+/*   Updated: 2022/12/18 17:18:46 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	ft_echo(char **content)
 	}
 	while (content[i])
 	{
-		printf("%s", content[i]);
+		write(1, content[i], ft_strlen(content[i]));
 		i++;
 	}
 	if (yes == 0)
-		printf("\n");
+		write(1, "\n", 1);
 	return (0);
 }
