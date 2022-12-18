@@ -6,7 +6,7 @@
 /*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:29:38 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/12/18 16:02:33 by soopark          ###   ########.fr       */
+/*   Updated: 2022/12/18 17:02:46 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,8 @@ void	exec_multi_cmd(t_cmd *cmd_list, t_env **env)
 		pid = fork();
 		if (pid < 0)
 			return (perror("fork"));
-		printf("pid : %d\n", pid);
 		if (pid == 0)
-		{
 			execute(cmd_list, env, fd);
-		}
 		if (cmd_list->next)
 		{
 			dup2(fd[0], 0);
@@ -125,12 +122,13 @@ void	exec_all(t_cmd *cmd, t_env **env)
 	while (flag != -1)
 	{
 		flag = waitpid (-1, &status, 0);
-		if (WIFSIGNALED(status) && flag != -1)
-		{
-			if (WTERMSIG(status))
-				g_exit_status = 128 + WTERMSIG(status);
-		}
-		else if (WIFEXITED(status) && flag != -1)
+		// if (WIFSIGNALED(status) && flag != -1)
+		// {
+		// 	if (WTERMSIG(status))
+		// 		g_exit_status = 128 + WTERMSIG(status);
+		// }
+		// else 
+		if (WIFEXITED(status) && flag != -1)
 			g_exit_status = WEXITSTATUS (status);
 	}
 	dup2(save_fd, 0);
