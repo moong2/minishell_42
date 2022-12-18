@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 22:33:27 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/09/10 23:40:21 by ahel-bah         ###   ########.fr       */
+/*   Updated: 2022/12/18 14:14:48 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ int	ft_env_cmd(t_env *env, char **content)
 {
 	if (ft_dubstrlen(content) > 1)
 	{
-		printf("Error :\n env: invalid argument: %s\n", content[1]);
-		g_exit_status = 0;
+		write(2, "env: ", 5);
+		write(2, content[1], ft_strlen(content[1]));
+		write(2, ": No such file or directory\n", 28);
+		g_exit_status = 1;
 		return (0);
 	}
 	else

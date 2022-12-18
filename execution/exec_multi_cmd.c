@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: soopark <soopark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:29:38 by ahel-bah          #+#    #+#             */
-/*   Updated: 2022/12/17 20:34:46 by jeykim           ###   ########.fr       */
+/*   Updated: 2022/12/18 16:02:33 by soopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	exec_multi_cmd(t_cmd *cmd_list, t_env **env)
 		pid = fork();
 		if (pid < 0)
 			return (perror("fork"));
+		printf("pid : %d\n", pid);
 		if (pid == 0)
 		{
 			execute(cmd_list, env, fd);
