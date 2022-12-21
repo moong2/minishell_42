@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 14:05:18 by jeykim            #+#    #+#             */
-/*   Updated: 2022/04/10 11:03:10 by jeykim           ###   ########.fr       */
+/*   Created: 2021/11/08 12:42:12 by ahel-bah          #+#    #+#             */
+/*   Updated: 2021/11/15 10:24:16 by ahel-bah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	size_t			i;
-	unsigned char	*return_ptr;
+	unsigned char	*casts;
+	unsigned char	castc;
 
 	i = 0;
-	return_ptr = NULL;
+	casts = (unsigned char *)s;
+	castc = (unsigned char)c;
 	while (i < n)
 	{
-		if (((unsigned char *)s)[i] == (unsigned char)c)
+		if (casts[i] == castc)
 		{
-			return_ptr = &(((unsigned char *)s)[i]);
-			break ;
+			return (&casts[i]);
 		}
 		i++;
 	}
-	return ((void *)return_ptr);
+	return (0);
 }

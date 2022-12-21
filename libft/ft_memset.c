@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/07 15:37:35 by jeykim            #+#    #+#             */
-/*   Updated: 2022/03/17 01:04:29 by jeykim           ###   ########.fr       */
+/*   Created: 2021/11/04 10:37:19 by ahel-bah          #+#    #+#             */
+/*   Updated: 2021/11/15 10:27:01 by ahel-bah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	unsigned int	i;
+	size_t	i;
+	char	*cast;
 
 	i = 0;
-	while (i < len)
+	cast = (char *)b;
+	while (len > 0)
 	{
-		((unsigned char *)b)[i] = (unsigned char)c;
+		cast[i] = c;
 		i++;
+		len--;
 	}
 	return (b);
 }

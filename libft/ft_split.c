@@ -3,102 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: waelhamd <waelhamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/22 17:33:46 by jeykim            #+#    #+#             */
-/*   Updated: 2022/04/10 14:23:02 by jeykim           ###   ########.fr       */
+/*   Created: 2021/11/12 15:44:27 by ahel-bah          #+#    #+#             */
+/*   Updated: 2022/09/10 00:22:57 by waelhamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	get_spcount(char const *s, char c)
+int	ft_countw(char const *s, char c)
 {
-	int	sp_count;
-
-	sp_count = 0;
-	while (*s != '\0')
-	{
-		while (*s != c && *s != '\0')
-			s++;
-		sp_count++;
-		while (*s == c && *s != '\0')
-			s++;
-	}
-	return (sp_count);
-}
-
-static int	get_str_length(char const *s, char c)
-{
-	int			i;
-	int			length;
-
-	i = 0;
-	length = 0;
-	while (s[i] != c && s[i] != '\0')
-	{
-		length++;
-		i++;
-	}
-	return (length);
-}
-
-static char const	*make_str(char **ptr, char const *s, int length)
-{
+	int	i;
 	int	j;
 
+	i = 0;
 	j = 0;
-	while (j < length)
-	{
-		(*ptr)[j] = *s;
-		s++;
+	if (s[0] != c)
 		j++;
+	while (s[i] != '\0')
+	{
+		if (s[i] == c && s[i + 1] != c && s[i + 1] != '\0')
+			j++;
+		i++;
 	}
-	(*ptr)[j] = '\0';
-	return (s);
+	return (j);
 }
 
-static void	*free_all(char **ptr)
+int	ft_lencount(char const *s, char c)
 {
 	int	i;
 
 	i = 0;
-	while (ptr[i])
+	while (s[i] != '\0' && s[i] != c)
+		i++;
+	return (i);
+}
+
+void	ft_free(char **ml)
+{
+	int	i;
+
+	i = 0;
+	while (ml[i])
 	{
-		free(ptr[i]);
-		ptr[i] = NULL;
+		free(ml[i]);
 		i++;
 	}
-	free(ptr);
-	ptr = NULL;
-	return (NULL);
+	free(ml);
+}
+
+char	**split2(char **ml, const char *s, char c)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (s[i] && j < ft_countw(s, c))
+	{
+		if (s[i] != c)
+		{
+			ml[j] = ft_substr(s, i, ft_lencount(s + i, c));
+			if (!ml[j])
+			{
+				ft_free(ml);
+				return (NULL);
+			}
+			i = i + ft_lencount(s + i, c);
+			j++;
+		}
+		i++;
+	}
+	ml[j] = NULL;
+	return (ml);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char			**ptr;
-	int				length;
-	char			**return_ptr;
+	char	**ml;
 
 	if (!s)
 		return (NULL);
-	while (*s == c && *s != '\0')
-		s++;
-	ptr = (char **)malloc(sizeof(char *) * (get_spcount(s, c) + 1));
-	if (!ptr)
-		return (NULL);
-	return_ptr = ptr;
-	return_ptr[get_spcount(s, c)] = 0;
-	while (*s)
-	{
-		length = get_str_length(s, c);
-		*ptr = (char *)malloc(sizeof(char) * length + 1);
-		if (!ptr)
-			return (free_all(return_ptr));
-		s = make_str(ptr, s, length);
-		while (*s == c && *s != '\0')
-			s++;
-		ptr++;
-	}
-	return (return_ptr);
+	ml = malloc(sizeof(char *) * (ft_countw(s, c) + 1));
+	if (ml == 0)
+		return (0);
+	return (split2(ml, s, c));
 }

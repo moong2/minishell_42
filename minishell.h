@@ -5,31 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/19 19:50:47 by jeykim            #+#    #+#             */
-/*   Updated: 2022/12/20 14:09:04 by jeykim           ###   ########.fr       */
+/*   Created: 2022/12/21 14:03:54 by jeykim            #+#    #+#             */
+/*   Updated: 2022/12/21 18:34:13 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define STD_IN 0
-# define STD_OUT 1
-# define INFILE 10
-# define OUTFILE 11
-# define HERDOC 12
-# define APPAND 13
 # define PATH "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 
-# include <stdio.h>
-# include <unistd.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdlib.h>
-# include <dirent.h>
-# include <stdbool.h>
-# include <paths.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include "libft/libft.h"
 
 int	g_exit_status;
@@ -65,18 +54,13 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
-// ft_env.c
-void	ft_free_env(t_env *env);
-void	print_env(t_env *env);
-int		ft_env_cmd(t_env *env, char **content);
-int		ft_start(char *s);
+// builtins
 t_env	*ft_env(char **nv);
+int		ft_start(char *s);
 
-// env_utils.c
-t_env	*ft_envnew(char *content, char *name);
-t_env	*ft_envlast(t_env *env);
-void	ft_envdelone(t_env *env, void (*del)(void*));
-void	ft_envclear(t_env **env, void (*del)(void*));
-void	ft_envadd_back(t_env **env, t_env *new);
+// lexing
+int		lex(char *buff, t_list **arg, t_env *env);
+// utils
+char	*ft_substr_lex(char *s, unsigned int start, size_t end);
 
 #endif

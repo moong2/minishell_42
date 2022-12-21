@@ -5,45 +5,48 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/04/09 11:06:24 by jeykim            #+#    #+#              #
-#    Updated: 2022/04/09 11:06:25 by jeykim           ###   ########.fr        #
+#    Created: 2021/11/08 14:49:20 by ahel-bah          #+#    #+#              #
+#    Updated: 2022/12/17 20:35:44 by jeykim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= libft.a
+NAME = libft.a
+ 
+C = cc
 
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+F = -Wall -Wextra -Werror
 
-SRC		= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
-SRC_BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
-OBJECT	= ${SRC:.c=.o}
-OBJECT_BONUS = ${SRC_BONUS:.c=.o}
-INCS	= .
+SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
+	ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c \
+	ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c \
+	ft_split.c ft_strchr.c ft_strdup.c ft_strjoin.c ft_strmapi.c \
+	ft_strlcat.c ft_strlcpy.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
+	ft_strtrim.c ft_strlen.c ft_substr.c ft_toupper.c ft_tolower.c \
+	ft_striteri.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
 
-ifdef EXIST_BONUS
-	OBJ = ${OBJECT} ${OBJECT_BONUS}
-else
-	OBJ = ${OBJECT}
-endif
+OBJ = $(SRC:.c=.o)
 
-.c.o :
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I${INCS}
+BNS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
+	ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
+	ft_lstclear.c ft_lstiter.c ft_lstmap.c \
 
-${NAME} : ${OBJ}
-	ar rc $@ $^
+BNS_OBJ = $(BNS:.c=.o)
 
-all : ${NAME}
+all: $(NAME)
 
-clean :
-	rm -f ${OBJECT} ${OBJECT_BONUS}
+%.o:%.c
+	$(C) $(F) -c $<
 
-fclean : clean
-	rm -f ${NAME}
+$(NAME): $(OBJ)
+	ar -rc $(NAME) $(OBJ)
 
-re : fclean all
+bonus: $(BNS_OBJ) $(OBJ)
+	ar -rc $(NAME) $(BNS_OBJ) $(OBJ)
 
-bonus :
-	make EXIST_BONUS=1 all
+clean:
+	rm -rf $(OBJ) $(BNS_OBJ)
 
-.PHONY : all clean fclean re .c.o
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all

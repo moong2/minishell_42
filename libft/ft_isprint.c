@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/07 15:21:49 by jeykim            #+#    #+#             */
-/*   Updated: 2022/03/12 12:20:30 by jeykim           ###   ########.fr       */
+/*   Created: 2021/11/02 17:29:50 by ahel-bah          #+#    #+#             */
+/*   Updated: 2021/11/15 10:22:07 by ahel-bah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	ft_isprint(int c)
 {
-	if (c >= 32 && c <= 126)
+	if (c < 127 && c >= 32)
 		return (1);
-	else
-		return (0);
+	return (0);
 }

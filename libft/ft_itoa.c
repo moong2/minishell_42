@@ -3,61 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/29 16:50:13 by jeykim            #+#    #+#             */
-/*   Updated: 2022/12/19 20:28:41 by jeykim           ###   ########.fr       */
+/*   Created: 2021/11/15 10:11:29 by ahel-bah          #+#    #+#             */
+/*   Updated: 2022/12/20 13:01:44 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	get_num_length(long n, int *sign)
+int	ft_intlen(long n)
 {
-	int		length;
+	int	i;
 
-	length = 0;
+	i = 0;
+	if (n == 0)
+		return (1);
 	if (n < 0)
 	{
-		n = -n;
-		*sign = -1;
-		length++;
+		i++;
+		n = n * -1;
 	}
-	else
-		*sign = 1;
-	while (n >= 10)
+	while (n > 0)
 	{
-		n /= 10;
-		length++;
+		n = (n / 10);
+		i++;
 	}
-	length++;
-	return (length);
+	return (i);
 }
 
 char	*ft_itoa(int n)
 {
-	char		*str;
-	int			length;
-	int			sign;
-	long		number;
+	int		i;
+	char	*ml;
+	long	c;
+	int		ifneg;
 
-	number = n;
-	length = get_num_length(number, &sign);
-	str = (char *)malloc(sizeof(char) * (length + 1));
-	if (!str)
-		return (NULL);
-	if (number < 0)
-		number = -number;
-	str[length] = '\0';
-	length--;
-	while (length > 0)
+	c = n;
+	ifneg = 0;
+	i = ft_intlen(c);
+	ml = malloc(i + 1);
+	if (ml == 0)
+		return (0);
+	ml[i] = '\0';
+	if (c < 0)
 	{
-		str[length] = '0' + number % 10;
-		number /= 10;
-		length--;
+		c = c * -1;
+		ml[0] = '-';
+		ifneg = 1;
 	}
-	str[length] = '0' + number;
-	if (sign < 0)
-		str[0] = '-';
-	return (str);
+	while (i > ifneg)
+	{
+		i--;
+		ml[i] = (c % 10) + 48;
+		c = (c / 10);
+	}
+	return (ml);
 }

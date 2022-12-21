@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 14:00:41 by jeykim            #+#    #+#             */
-/*   Updated: 2022/04/05 14:30:51 by jeykim           ###   ########.fr       */
+/*   Created: 2021/11/05 14:41:46 by ahel-bah          #+#    #+#             */
+/*   Updated: 2021/11/17 17:59:37 by ahel-bah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned int	i;
+	size_t			i;
+	unsigned char	*casts1;
+	unsigned char	*casts2;
 
 	i = 0;
 	if (n == 0)
 		return (0);
-	if (n > 0)
-	{
-		while (i < n - 1 && s1[i] != '\0' && s2[i] != '\0')
-		{
-			if (s1[i] != s2[i])
-				return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-			i++;
-		}
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	casts1 = (unsigned char *)s1;
+	casts2 = (unsigned char *)s2;
+	while (casts1[i] && casts2[i] && i < n - 1 && casts1[i] == casts2[i])
+		i++;
+	if (casts1[i] > casts2[i])
+		return (1);
+	if (casts1[i] < casts2[i])
+		return (-1);
+	return (0);
 }

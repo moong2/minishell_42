@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_substr_lex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahel-bah <ahel-bah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 16:28:23 by ahel-bah          #+#    #+#             */
-/*   Updated: 2021/11/15 10:36:41 by ahel-bah         ###   ########.fr       */
+/*   Created: 2022/12/21 14:30:45 by jeykim            #+#    #+#             */
+/*   Updated: 2022/12/21 14:36:29 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_lex(char *s, unsigned int start, size_t end)
 {
 	char			*s1;
 	unsigned int	i;
 
 	if (!s)
-		return (0);
+		return (NULL);
 	if (start >= ft_strlen(s))
 		return (ft_strdup(""));
-	if (ft_strlen(s) <= len)
-		len = ft_strlen(s);
-	s1 = (char *)malloc(len + 1);
-	if (s1 == 0)
-		return (0);
+	if (ft_strlen(s) < end)
+		end = ft_strlen(s);
+	s1 = (char *)malloc(sizeof(char) * (end + 1));
+	if (!s1)
+		return (NULL);
 	i = 0;
-	while (i < len)
+	while (start < end)
 	{
 		s1[i] = s[start];
 		i++;

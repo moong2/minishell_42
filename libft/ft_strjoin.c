@@ -5,38 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 01:43:50 by jeykim            #+#    #+#             */
-/*   Updated: 2022/03/22 15:19:58 by jeykim           ###   ########.fr       */
+/*   Created: 2021/11/11 14:47:47 by ahel-bah          #+#    #+#             */
+/*   Updated: 2022/12/19 19:38:18 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const	*s1, char const	*s2)
 {
-	size_t				length;
-	char				*str;
-	size_t				i;
+	char	*al;
+	size_t	i;
+	size_t	j;
 
+	if (!s1 || !s2)
+		return (0);
+	al = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (al == 0)
+		return (0);
 	i = 0;
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	length = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc(sizeof(char) * length + 1);
-	if (str == NULL)
-		return (NULL);
-	while (*s1 != '\0')
+	j = 0;
+	while (i <= ft_strlen(s1) + ft_strlen(s2))
 	{
-		str[i] = *s1;
+		while (i < ft_strlen(s1))
+		{
+			al[i] = s1[i];
+			i++;
+		}
+		al[i] = s2[j];
 		i++;
-		s1++;
+		j++;
 	}
-	while (*s2 != '\0')
-	{
-		str[i] = *s2;
-		i++;
-		s2++;
-	}
-	str[i] = '\0';
-	return (str);
+	al[i] = '\0';
+	return (al);
 }
