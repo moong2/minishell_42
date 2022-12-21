@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeykim <jeykim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 19:50:47 by jeykim            #+#    #+#             */
-/*   Updated: 2022/12/19 20:35:40 by jeykim           ###   ########.fr       */
+/*   Updated: 2022/12/20 14:09:04 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,19 @@ typedef struct s_env
 	char			*content;
 	struct s_env	*next;
 }				t_env;
+
+// ft_env.c
+void	ft_free_env(t_env *env);
+void	print_env(t_env *env);
+int		ft_env_cmd(t_env *env, char **content);
+int		ft_start(char *s);
+t_env	*ft_env(char **nv);
+
+// env_utils.c
+t_env	*ft_envnew(char *content, char *name);
+t_env	*ft_envlast(t_env *env);
+void	ft_envdelone(t_env *env, void (*del)(void*));
+void	ft_envclear(t_env **env, void (*del)(void*));
+void	ft_envadd_back(t_env **env, t_env *new);
 
 #endif
