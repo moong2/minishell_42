@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/19 20:02:21 by jeykim            #+#    #+#             */
-/*   Updated: 2022/12/20 14:09:26 by jeykim           ###   ########.fr       */
+/*   Created: 2022/12/21 22:33:27 by soopark           #+#    #+#             */
+/*   Updated: 2023/01/10 15:49:09 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_env_cmd(t_env *env, char **content)
 	return (0);
 }
 
-int	ft_start(char *s)
+static int	ft_start(char *s)
 {
 	int	i;
 
@@ -72,6 +72,7 @@ int	ft_start(char *s)
 t_env	*ft_env(char **nv)
 {
 	int		i;
+	int		tmp;
 	int		start;
 	t_env	*env;
 
@@ -80,18 +81,16 @@ t_env	*ft_env(char **nv)
 	while (nv[++i])
 	{
 		start = ft_start(nv[i]);
-		ft_envadd_back(&env, ft_envnew(ft_substr_lex(nv[i], start, \
-		ft_strlen(nv[i])), ft_substr_lex(nv[i], 0, start - 1)));
+		ft_envadd_back(&env, ft_envnew(ft_substr_lex(nv[i], start,
+					ft_strlen(nv[i])), ft_substr_lex(nv[i], 0, start - 1)));
 		if (ft_strcmp(ft_envlast(env)->name, "SHLVL") == 0)
-			ft_envlast(env)->content[0]++;
+		{
+			tmp = ft_atoi(ft_envlast(env)->content) + 1;
+			free(ft_envlast(env)->content);
+			ft_envlast(env)->content = ft_itoa(tmp);
+		}
 	}
-	if (!env)
-	{
-		ft_envadd_back(&env, ft_envnew(getcwd(NULL, 0), ft_strdup("PWD")));
-		ft_envadd_back(&env, ft_envnew(ft_strdup("1"), ft_strdup("SHLVL")));
-		ft_envadd_back(&env, ft_envnew(ft_strdup("/usr/bin/env"), \
-		ft_strdup("_")));
-	}
-	ft_envadd_back(&env, ft_envnew(ft_strdup(PATH), ft_strdup("SPATH")));
+	ft_envadd_back(&env, ft_envnew(ft_strdup(PATH),
+			ft_strdup("SPATH")));
 	return (env);
 }

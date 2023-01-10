@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 14:37:40 by jeykim            #+#    #+#             */
-/*   Updated: 2022/12/21 15:21:41 by jeykim           ###   ########.fr       */
+/*   Created: 2022/12/31 19:52:12 by jeykim            #+#    #+#             */
+/*   Updated: 2023/01/10 15:45:32 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	single_quoting(char *buff, t_lex *lex, t_list **arg)
 		if (buff[lex->i] == '\'')
 		{
 			lex->arglen = lex->i;
-			ft_lexadd_back(arg, \
-			ft_lstnew(ft_substr_lex(buff, lex->argstart, lex->arglen), 1));
+			ft_lstadd_back(arg,
+				ft_lstnew(ft_substr_lex(buff, lex->argstart, lex->arglen), 1));
 			lex->i++;
 			return (0);
 		}
 		lex->i++;
 	}
-	printf("Error: syntax error: uninterpreted single quote.\n");
-	g_exit_status = 1;
-	return (1);
+	printf("Error:\n syntax error: uninterpreted single quote.\n");
+	g_exit_status = 258;
+	return (258);
 }

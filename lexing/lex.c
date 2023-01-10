@@ -5,21 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 14:11:21 by jeykim            #+#    #+#             */
-/*   Updated: 2022/12/21 17:34:31 by jeykim           ###   ########.fr       */
+/*   Created: 2022/12/22 18:51:50 by jeykim            #+#    #+#             */
+/*   Updated: 2023/01/10 15:45:25 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	is_space(char *buff, t_lex *lex, t_list **arg)
+static void	is_space(char *buff, t_lex *lex, t_list **arg)
 {
 	lex->argstart = lex->i;
 	lex->arglen = lex->i + 1;
 	while (buff[lex->i] == ' ')
 		lex->i++;
-	ft_lstadd_back(arg, \
-	ft_lstnew(ft_substr_lex(buff, lex->argstart, lex->arglen), 0));
+	ft_lstadd_back(arg,
+		ft_lstnew(ft_substr_lex(buff, lex->argstart, lex->arglen), 0));
 }
 
 int	lex(char *buff, t_list **arg, t_env *env)

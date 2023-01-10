@@ -5,12 +5,84 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeykim <jeykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 15:49:17 by jeykim            #+#    #+#             */
-/*   Updated: 2022/12/21 17:16:18 by jeykim           ###   ########.fr       */
+/*   Created: 2022/12/13 11:24:30 by jeykim            #+#    #+#             */
+/*   Updated: 2023/01/10 15:44:24 by jeykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_replace(t_list **arg, t_env *env)
+{
+	char	*tmp;
+
+	while (env)
+	{
+		if (ft_strcmp(&(*arg)->content[1], env->name) == 0)
+			break ;
+		env = env->next;
+	}
+	if ((*arg)->content[0] == '$' && (*arg)->content[1] == '\0')
+		return ;
+	if (env == NULL)
+		(*arg)->quoted = 4;
+	else
+	{
+		tmp = (*arg)->content;
+		(*arg)->content = ft_strdup(env->content);
+		free(tmp);
+	}
+}
+
+void	ft_expend(t_list **arg, t_env *env, int d)
+{
+	int		len;
+	char	*tmp;
+
+	len = 1;
+	if (d > 0)
+	{
+		ft_lstinsert(arg, ft_lstnew(ft_strdup(&(*arg)->content[d]), 0));
+		tmp = (*arg)->content;
+		(*arg)->content = ft_substr_lex((*arg)->content, 0, d);
+		free(tmp);
+		return ;
+	}
+	while ((*arg)->content[len] != '\0' && \
+		((*arg)->content[len] == '_' || ft_isalnum((*arg)->content[len])))
+		len++;
+	if ((*arg)->content[len] != '\0')
+	{
+		ft_lstinsert(arg, ft_lstnew(
+				ft_strdup(&((*arg)->content[len])), (*arg)->quoted));
+		tmp = (*arg)->content;
+		(*arg)->content = ft_substr_lex((*arg)->content, 0, len);
+		free(tmp);
+	}
+	ft_replace(arg, env);
+}
+
+static void	ft_expand_exit_status(t_list **arg)
+{
+	char	*tmp;
+
+	if (ft_strlen((*arg)->content) == 2 && (*arg)->quoted != 1
+		&& (*arg)->content[0] == '$' && (*arg)->content[1] == '?')
+	{
+		free((*arg)->content);
+		tmp = ft_itoa(g_exit_status);
+		(*arg)->content = ft_strdup(tmp);
+		free(tmp);
+	}
+	else if ((*arg)->quoted != 1 && (*arg)->content[0] == '$'
+		&& (*arg)->content[1] == '?')
+	{
+		ft_lstinsert(arg, ft_lstnew(ft_strdup(&(*arg)->content[2]), \
+		(*arg)->quoted));
+		free((*arg)->content);
+		(*arg)->content = ft_itoa(g_exit_status);
+	}
+}
 
 void	dollar(t_list **arg, t_env *env)
 {
@@ -25,8 +97,8 @@ void	dollar(t_list **arg, t_env *env)
 		i++;
 	if (i > 0)
 	{
-		ft_lstinsert(arg, ft_lstnew(ft_strdup(&(*arg)->content[i]), \
-		(*arg)->quoted));
+		ft_lstinsert(arg, ft_lstnew(ft_strdup(&(*arg)->content[i]),
+				(*arg)->quoted));
 		tmp = (*arg)->content;
 		(*arg)->content = ft_substr_lex((*arg)->content, 0, i);
 		free(tmp);
@@ -34,7 +106,7 @@ void	dollar(t_list **arg, t_env *env)
 	while ((*arg)->content[i++] == '$' && (*arg)->content[i] == '$')
 		sequenced_dollars++;
 	if ((*arg)->content[0] == '$')
-		ft_expand(arg, env, sequenced_dollars);
+		ft_expend(arg, env, sequenced_dollars);
 }
 
 void	clean_line(t_list **arg, t_env *env)
@@ -51,9 +123,9 @@ void	clean_line(t_list **arg, t_env *env)
 	ft_herdoc(arg, env);
 	while (*arg)
 	{
-		if (((*arg)->quoted == 0 && ft_strcmp((*arg)->content, "|") == 0 \
-		&& (*arg)->next && (*arg)->next->quoted == 0 \
-		&& ft_strcmp((*arg)->next->content, " ") == 0))
+		if (((*arg)->quoted == 0 && ft_strcmp((*arg)->content, "|") == 0
+				&& (*arg)->next && (*arg)->next->quoted == 0
+				&& ft_strcmp((*arg)->next->content, " ") == 0))
 			ft_dellst(arg, (*arg)->next);
 		if ((*arg) && (*arg)->quoted != 1 && ft_strchr((*arg)->content, '$'))
 			dollar(arg, env);
